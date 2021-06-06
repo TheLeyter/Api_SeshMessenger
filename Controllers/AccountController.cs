@@ -183,18 +183,29 @@ namespace AuthApiSesh.Controllers{
             return Ok(userinfo);
         }
 
-        [Authorize(Policy = "Refresh")]
-        [HttpGet("validtoken")]
-        public async Task<ActionResult> ChackRefToken()
-        {
-            string requestToken = base.HttpContext.Request.Headers[HeaderNames.Authorization].First().Split(' ').Last();
-            var Token = _db.RefreshTokens.FirstOrDefault(x => x.token == requestToken);
-            if (Token == null)
-            {
-                return BadRequest();
-            }
-            return Ok(true);
-        }
+        //[Authorize(Policy = "Refresh")]
+        //[HttpGet("validtoken")]
+        //public async Task<ActionResult> ChackRefToken()
+        //{
+        //    string requestToken = base.HttpContext.Request.Headers[HeaderNames.Authorization].First().Split(' ').Last();
+        //    long id = Int64.Parse(User.Claims.Where(x => x.Type == TokenClaims.UserId).First().Value);
+        //    var Token = _db.RefreshTokens.FirstOrDefault(x => x.token == requestToken);
+        //    if (Token == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    User user = await _db.Users.FindAsync(id);
+
+        //    if(user == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    string accessToken = await _jwt.GetAccessTokenAsync(user);
+
+        //    return Ok(accessToken);
+        //}
 
         [Authorize(Policy = "Refresh")]
         [HttpGet("signout")]

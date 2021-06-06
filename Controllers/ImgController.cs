@@ -58,13 +58,10 @@ namespace AuthApiSesh.Controllers
         [HttpGet("getuserphoto/{id}")]
         public async Task<ActionResult> getUserPhoto(long id)
         {
-            string avatar = _db.Users.FindAsync(id).Result.avatar;
-            if (avatar == null)
-            {
-                return NotFound();
-            }
-            Bitmap bmp = new Bitmap(avatar);
-            return PhysicalFile(avatar, "image/png");
+            User user = await _db.Users.FindAsync(id);
+            if (user == null ) return NotFound();
+            else if(user.avatar == null ) return NotFound();
+            return PhysicalFile(user.avatar, "image/*");
         }
     }
 }
