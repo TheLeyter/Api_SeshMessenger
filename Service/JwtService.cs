@@ -80,7 +80,7 @@ namespace AuthApiSesh.Service
 
         public string GetAccessToken(User user)//
         {
-            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, user.id.ToString()), new Claim(TokenClaims.UserName, user.username), new Claim(TokenClaims.Type, TokenTypes.Access) };
+            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, user.id.ToString(), ClaimValueTypes.Integer64), new Claim(TokenClaims.UserName, user.username), new Claim(TokenClaims.Type, TokenTypes.Access) };
 
             return accesTokenHandler(Claims);
         }
@@ -88,15 +88,15 @@ namespace AuthApiSesh.Service
 
         public string GetAccessToken(long id, string username)//
         {
-            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, id.ToString()), new Claim(TokenClaims.UserName, username), new Claim(TokenClaims.Type, TokenTypes.Access) };
+            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, id.ToString(), ClaimValueTypes.Integer64), new Claim(TokenClaims.UserName, username), new Claim(TokenClaims.Type, TokenTypes.Access) };
 
             return accesTokenHandler(Claims);
         }
 
-        public string GetConfirmToken(long id)
+        public string GetConfirmToken(long id, string email)
         {
 
-            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, id.ToString()), new Claim(TokenClaims.Type, TokenTypes.Confirm) };
+            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, id.ToString(), ClaimValueTypes.Integer64), new Claim(TokenClaims.Email,email), new Claim(TokenClaims.Type, TokenTypes.Confirm) };
 
             return confirmTokenHandler(Claims);
 
@@ -106,7 +106,7 @@ namespace AuthApiSesh.Service
         public string GetConfirmToken(User User)
         {
 
-            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, User.id.ToString()), new Claim(TokenClaims.Type, TokenTypes.Confirm) };
+            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, User.id.ToString(), ClaimValueTypes.Integer64), new Claim(TokenClaims.Email, User.email), new Claim(TokenClaims.Type, TokenTypes.Confirm) };
 
             return confirmTokenHandler(Claims);
 
@@ -115,22 +115,22 @@ namespace AuthApiSesh.Service
 
         public async Task<string> GetAccessTokenAsync(User User)//
         {
-            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, User.id.ToString()), new Claim(TokenClaims.UserName, User.username), new Claim(TokenClaims.Type, TokenTypes.Access) };
+            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, User.id.ToString(), ClaimValueTypes.Integer64), new Claim(TokenClaims.UserName, User.username), new Claim(TokenClaims.Type, TokenTypes.Access) };
 
             return accesTokenHandler(Claims);
         }
 
         public async Task<string> GetAccessTokenAsync(long id, string username)//
         {
-            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, id.ToString()), new Claim(TokenClaims.UserName, username), new Claim(TokenClaims.Type, TokenTypes.Access) };
+            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, id.ToString(), ClaimValueTypes.Integer64), new Claim(TokenClaims.UserName, username), new Claim(TokenClaims.Type, TokenTypes.Access) };
 
             return accesTokenHandler(Claims);
         }
 
-        public async Task<string> GetConfirmTokenAsync(long id)//
+        public async Task<string> GetConfirmTokenAsync(long id, string email)//
         {
 
-            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, id.ToString()), new Claim(TokenClaims.Type, TokenTypes.Confirm) };
+            var Claims = new List<Claim> { new Claim(TokenClaims.UserId, id.ToString(), ClaimValueTypes.Integer64), new Claim(TokenClaims.Email, email), new Claim(TokenClaims.Type, TokenTypes.Confirm) };
 
             return confirmTokenHandler(Claims);
         }

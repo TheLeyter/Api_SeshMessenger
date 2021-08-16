@@ -31,7 +31,8 @@ namespace AuthApiSesh.Controllers
         public async Task<ActionResult> setUserPhoto([FromForm(Name = "img")] IFormFile photo)
         {
             var id = Int64.Parse(User.Claims.Where(x => x.Type == TokenClaims.UserId).First().Value);
-            string fileName = "sesh" + "_" + DateTime.UtcNow.ToShortDateString() + "_" + id.ToString() + "." + photo.FileName.Split('.').Last();
+            //string fileName = "sesh" + "_" + DateTime.UtcNow.ToShortDateString() + "_" + id.ToString() + "." + photo.FileName.Split('.').Last();
+            string fileName = Guid.NewGuid().ToString() + photo.FileName.Split('.').Last();
             string path = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot\\UserPhoto\\" + fileName);
             try
             {
@@ -49,7 +50,7 @@ namespace AuthApiSesh.Controllers
             User user = await _db.Users.FindAsync(id);
             user.avatar = path;
             await _db.SaveChangesAsync();
-            return Ok(fileName);
+            return Ok();
         }
 
         [HttpGet("getuserphoto/{id}")]

@@ -116,7 +116,11 @@ namespace AuthApiSesh.Controllers{
 
         [HttpPost("signin")]
         public async Task<ActionResult> SignIn(ClientUser clientUser){
-            
+            if (clientUser == null)
+            {
+                return BadRequest();
+            }
+
             var user = _db.Users.FirstOrDefault(x => x.username == clientUser.username);
 
             if(user==null){
@@ -161,7 +165,7 @@ namespace AuthApiSesh.Controllers{
         }
 
         [Authorize(Policy = "Access")]
-        [HttpGet("getmyinfo")]
+        [HttpGet("getaccount")]
         public async Task<ActionResult> GetMyInfo()
         {
             var id = Int64.Parse(User.Claims.Where(x => x.Type == TokenClaims.UserId).First().Value);
@@ -185,7 +189,7 @@ namespace AuthApiSesh.Controllers{
 
         [Authorize(Policy = "Refresh")]
         [HttpGet("validtoken")]
-        public async Task<ActionResult> ChackRefToken()
+        public async Task<ActionResult> validRefToken()
         {
             string requestToken = base.HttpContext.Request.Headers[HeaderNames.Authorization].First().Split(' ').Last();
             var Token = _db.RefreshTokens.FirstOrDefault(x => x.token == requestToken);
@@ -242,8 +246,6 @@ namespace AuthApiSesh.Controllers{
 
             return Ok(result);
         }
-
-
 
     }
 }
