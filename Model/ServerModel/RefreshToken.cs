@@ -10,7 +10,7 @@ namespace AuthApiSesh.Model
         [Key]
         public long id { get; set; }
         [Required]
-        public User user { get; set; }
+        public virtual User user { get; set; }
         [Required]
         public string token { get; set; }
         [DataType(DataType.DateTime)]

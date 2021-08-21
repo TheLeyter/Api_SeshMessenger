@@ -76,7 +76,8 @@ namespace AuthApiSesh.Controllers{
         }
 
         [Authorize(Policy = "Confirm")]
-        [HttpGet("verification/{code}")]
+        //[HttpGet("verification/{code}")]
+        [HttpGet("verification")]//get code from params
         public async Task<ActionResult> Verification(int code){
 
             var id = Int64.Parse(User.Claims.Where(x => x.Type == TokenClaims.UserId).First().Value);

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,12 +35,13 @@ namespace AuthApiSesh
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(optionsAction => optionsAction.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<AppDbContext>(optionsAction => optionsAction.UseLazyLoadingProxies().UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddSingleton<IJwtService, JwtService>();
             
             services.AddSingleton<IEmailService, EmailService>();
 
+            services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             #region settings
             services.Configure<MailSettings>(Configuration.GetSection("MAIL"));
@@ -92,7 +94,7 @@ namespace AuthApiSesh
             #endregion
 
             services.AddMemoryCache();
-
+            
             services.AddControllers();
         }
 

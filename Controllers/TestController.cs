@@ -51,8 +51,6 @@ namespace AuthApiSesh.Controllers{
                 return NotFound();
             }
 
-            
-
             return user;
         }
 
@@ -79,70 +77,70 @@ namespace AuthApiSesh.Controllers{
             return Ok("Hello World!!!");
         }
         
-        [HttpPost("createfriends")]
-        public async Task<ActionResult> CreateFriends(ClientFriends friends){
-            if(friends == null){
-                return BadRequest();
-            }
-             var users = _db.Users.Where(x => new long[]{friends.User1,friends.User2}.Contains(x.id)).ToList();
-             if(users.Count <= 0){
-                return BadRequest();
-             }
+        //[HttpPost("createfriends")]
+        //public async Task<ActionResult> CreateFriends(ClientFriends friends){
+        //    if(friends == null){
+        //        return BadRequest();
+        //    }
+        //     var users = _db.Users.Where(x => new long[]{friends.User1,friends.User2}.Contains(x.id)).ToList();
+        //     if(users.Count <= 0){
+        //        return BadRequest();
+        //     }
              
-            var res = await _db.Friends.AddAsync(new Friend(users[0],users[1]));
-            await _db.SaveChangesAsync();
+        //    var res = await _db.Friends.AddAsync(new Friend(users[0],users[1]));
+        //    await _db.SaveChangesAsync();
 
-            return Ok(res.Entity);
-        }
+        //    return Ok(res.Entity);
+        //}
 
-        [HttpGet("getfriend/{id}")]
-        public async Task<ActionResult> GetFriendsById(long id){
-            if(id == null){
-                return BadRequest();
-            }
+        //[HttpGet("getfriend/{id}")]
+        //public async Task<ActionResult> GetFriendsById(long id){
+        //    if(id == null){
+        //        return BadRequest();
+        //    }
 
-            var res = (_db.Friends.Where(x=>x.id==id).Include(x=>x.user1).Include(x=>x.user2)).FirstOrDefault();
+        //    var res = (_db.Friends.Where(x=>x.id==id).Include(x=>x.user1).Include(x=>x.user2)).FirstOrDefault();
 
-            if(res == null){
-                return BadRequest();
-            }
+        //    if(res == null){
+        //        return BadRequest();
+        //    }
 
-            return Ok(res);
-        }
+        //    return Ok(res);
+        //}
 
-        [HttpGet("geterror/{id}")]
-        public ActionResult GetError(int id){
-            if(id == null){
-                return BadRequest();
-            }
-            switch (id)
-            {
-                case 461:
-                    return StatusCode((int)StatusСode.ErrorEmail,StatusCodTitle.ErrorEmail);
-                case 462:
-                    return StatusCode((int)StatusСode.ErrorUsername,StatusCodTitle.ErrorUsername);
-                case 463:
-                    return StatusCode((int)StatusСode.ErrorPassword,StatusCodTitle.ErrorPassword);
-                case 465:
-                    return StatusCode((int)StatusСode.ErrorSignIn,StatusCodTitle.ErrorSignIn);
-            }
-            return BadRequest();
-        }
+        //[HttpGet("geterror/{id}")]
+        //public ActionResult GetError(int id){
+        //    if(id == null){
+        //        return BadRequest();
+        //    }
+        //    switch (id)
+        //    {
+        //        case 461:
+        //            return StatusCode((int)StatusСode.ErrorEmail,StatusCodTitle.ErrorEmail);
+        //        case 462:
+        //            return StatusCode((int)StatusСode.ErrorUsername,StatusCodTitle.ErrorUsername);
+        //        case 463:
+        //            return StatusCode((int)StatusСode.ErrorPassword,StatusCodTitle.ErrorPassword);
+        //        case 465:
+        //            return StatusCode((int)StatusСode.ErrorSignIn,StatusCodTitle.ErrorSignIn);
+        //    }
+        //    return BadRequest();
+        //}
 
-        [HttpGet("getallfriend/{id}")]
-        public async Task<ActionResult> GetAllFriendsById(long id){
-            if(id == null){
-                return BadRequest();
-            }
+        //[HttpGet("getallfriend/{id}")]
+        //public async Task<ActionResult> GetAllFriendsById(long id){
+        //    if(id == null){
+        //        return BadRequest();
+        //    }
 
-            var res = _db.Friends.Where(x => x.user1.id == id).Include(x=>x.user2).Select(x=>x.user2);
+        //    var res = _db.Friends.Where(x => x.user1.id == id).Include(x=>x.user2).Select(x=>x.user2);
 
-            if(res.Count() == 0){
-                return BadRequest();
-            }
+        //    if(res.Count() == 0){
+        //        return BadRequest();
+        //    }
 
-            return Ok(res);
-        }
+        //    return Ok(res);
+        //}
 
         [HttpGet("getreftoken/{id}")]
         public async Task<ActionResult> GetRefreshToken(long id){

@@ -205,6 +205,16 @@ namespace AuthApiSesh.Service
             return true;
 
         }
+
+        public string GetConfirmToken(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetConfirmTokenAsync(long id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
