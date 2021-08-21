@@ -190,7 +190,7 @@ namespace AuthApiSesh.Controllers{
 
         [Authorize(Policy = "Refresh")]
         [HttpGet("validtoken")]
-        public async Task<ActionResult> validRefToken()
+        public async Task<ActionResult> ChackRefToken()
         {
             string requestToken = base.HttpContext.Request.Headers[HeaderNames.Authorization].First().Split(' ').Last();
             var Token = _db.RefreshTokens.FirstOrDefault(x => x.token == requestToken);
