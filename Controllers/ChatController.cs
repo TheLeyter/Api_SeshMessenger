@@ -69,13 +69,13 @@ namespace AuthApiSesh.Controllers
             return new JsonResult(chats.ToList());
         }
 
-        [HttpGet("getChat/{id}")]
+        [HttpGet("getchat")]
         [Authorize(Policy = "Access")]
         public async Task<ActionResult> getChatById(long id)
         {
             long targetUserId = Int64.Parse(User.Claims.Where(x => x.Type == TokenClaims.UserId).First().Value);
 
-            var chat = _db.Chats.Where(x => x.id == id && (x.user.id == targetUserId || x.userCreator.id == targetUserId));
+            var chat = _db.Chats.FirstOrDefault(x => x.id == id && (x.user.id == targetUserId || x.userCreator.id == targetUserId));
 
             if (chat is null) return NotFound();
 

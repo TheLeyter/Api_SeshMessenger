@@ -76,11 +76,37 @@ namespace AuthApiSesh.Controllers
                             orderby m.timeSend
                             select m)
                            .SkipWhile(x => x.id != messageid)
-                           .TakeLast(10);
+                           .Skip(1)
+                           .TakeLast(10)
+                           .ToList();
 
-            return new JsonResult(messages.ToList());
+
+            return new JsonResult(messages);
 
         }
 
+        [HttpGet("messagebyid")]
+        [Authorize(Policy = "Access")]
+        public async Task<ActionResult> getMessageById(long messageid)
+        {
+            long targetUserId = Int64.Parse(User.Claims.Where(x => x.Type == TokenClaims.UserId).First().Value);
+
+            var message = await _db.Messages.FindAsync(messageid);
+
+            if (message is null)
+            {
+                return NotFound(); //TODO: create custom status code "ChatNotFound"
+            }
+
+
+            if(message.chat.userId != targetUserId || message.chat.userCreatorId != targetUserId)
+            {
+                return new ForbidResult();
+            }
+
+
+            return new JsonResult(message);
+
+        }
     }
 }

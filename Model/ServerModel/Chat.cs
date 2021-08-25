@@ -13,6 +13,8 @@ namespace AuthApiSesh.Model.ServerModel
 
         public virtual User userCreator { get; set; }
         public virtual User user { get; set; }
+        public long userId { get; set; }
+        public long userCreatorId { get; set; }
         public virtual List<Message> messages { get; set; }
         public DateTime createdTime { get; set; }
 
